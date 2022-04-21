@@ -1,0 +1,29 @@
+{
+  "name": "districts-plots",
+  "version": "1.0.0",
+  "description": "node.js, express, mysql, javascript, json",
+  "main": "app.js",
+  "scripts": {
+    "server": "nodemon app.js",
+    "client": "npm run start --prefix client",
+    "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [
+    "node.js",
+    "express",
+    "mysql",
+    "javascript",
+    "json"
+  ],
+  "author": "Taras Schevchencko <i@shev-taras.ru>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.17.3",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.15",
+    "concurrently": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "prettier": "2.6.1"
+  }
+}
