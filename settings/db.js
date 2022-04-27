@@ -16,7 +16,9 @@ const connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: "",
-  database: "districtsDB",
+  database: "multipoligon",
+  // multipoligon
+  // districtsDB
 });
 connection.connect((error) => {
   if (error) {
@@ -52,6 +54,12 @@ connection.connect((error) => {
     // plotsJson.features.map(item => {
     //     connection.query("INSERT INTO `plots`(`id`,`bbl`, `geometry`)  VALUES('" +   --plotsJson.features.length + "', '" + item.properties.bbl + "','" + JSON.stringify(item.geometry.coordinates) + "')")
     // })
+    const geoSql ='INSERT INTO geo(place_name, coordinates) VALUES (Apartment, PointFromText(POINT(49.234 2.5273))'
+        connection.query(geoSql)
+
+
+
+
     return console.log("Database connection was successful");
   }
 });
