@@ -1,15 +1,9 @@
 const response = require("./../response");
 const db = require("./../settings/db");
-const districtsJson = require("../data/districts.json");
-const plotsJson = require("../data/plots.json");
-// console.log(districtsJson.features.map(item => item.properties.ntaname))
-// console.log(districtsJson.features.map(item => {
-//     return { geometry: item.geometry.coordinates.flat(3)
-// }}))
 
 exports.districts = (req, res) => {
-  const allDistricts = "SELECT * FROM geo";
-  db.query(allDistricts, async (error, rows, fields) => {
+  const sql = "SELECT id, ntaname AS name, st_area(coordinates)AS area FROM geodistricts";
+  db.query(sql, async (error, rows, fields) => {
     if (error) {
       console.log("Error", error);
     } else {
@@ -17,4 +11,24 @@ exports.districts = (req, res) => {
     }
   });
 };
+exports.plots = (req, res) => {
+  const sql = "SELECT geodistricts.id, SUM(MBRContains(geodistricts.coordinates, geoplots.coord)) AS sum FROM geodistricts, geoplots WHERE geodistricts.id > 180 GROUP BY geodistricts.id LIMIT 2";
+  db.query(sql, async (error, rows, fields) => {
+    if (error) {
+      console.log("Error", error);
+    } else {
+      response.status(rows, res);
+    }
 
+  });
+};
+exports.geo = (req, res) => {
+  const sql = "SELECT id, name, geometry AS area FROM geo";
+  db.query(sql, async (error, rows, fields) => {
+    if (error) {
+      console.log("Error", error);
+    } else {
+      response.status(rows, res);
+    }
+  });
+};

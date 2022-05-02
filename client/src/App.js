@@ -13,78 +13,63 @@ import React from "react";
 function App() {
   const [districts, setDistricts] = useState(null);
   const [bblOne, setBblOne] = useState(null);
-  const [plots, setPlots] = useState(null);
+  const [minMax, setMinMax] = useState(null);
   const getDistricts = async () => {
     await axios.get("/districts").then((res) => {
-      console.log(res.data.values);
       setDistricts(res.data.values);
     });
   };
-
   const getPlots = async () => {
-    await axios.get("/plots").then((res) => {
-      console.log(res.data);
-      res.data.values.map((item) => {
-        function areaFromCoords(coordArray) {
-          let x = coordArray,
-            a = 0;
-          if (x.length % 2) return;
-          for (let i = 0, iLen = x.length - 2; i < iLen; i += 2) {
-            a += x[i] * x[i + 3] - x[i + 2] * x[i + 1];
-          }
-          return Math.abs(a / 2);
-        }
-
-        return (item.geometry = (
-          areaFromCoords(JSON.parse(item.geometry).flat(3)) * 100000000000000
-        ).toFixed(3));
-      });
-
+    await axios.get("/max").then((res) => {
       console.log("values:", res.data.values);
-      setPlots(res.data.values);
-      setBblOne(res.data.values);
+      const [minMax] = res.data.values
+      setMinMax(minMax);
     });
   };
-  const [search, setCardBbl] = useState();
+  const [search, setSearch] = useState();
+  const getBbl = async () => {
+    await axios.get("/bbl").then((res) => {
+      console.log("values:", res.data.values);
+      setSearch(res.data.values);
+    });
+  };
+
 
   function resultSearch(e) {
     let result = bblOne.filter((item) => item.bbl === Number(e.target.value));
     console.log("value:", e.target.value);
     console.log("result:", result);
-    setCardBbl(result);
+    setSearch(result);
   }
 
   function deleteDistricts() {
     setDistricts(null);
   }
 
-  function deletePlots() {
-    setPlots(null);
-    setCardBbl(null);
-  }
+  // function deletePlots() {
+  //   setPlots(null);
+  //   setCardBbl(null);
+  // }
 
   const [interval, setInterval] = useState(null);
 
-  function deleteInterval() {
-    const sortPlots = plots.sort((a, b) => {
-      if (Number(a.geometry) > Number(b.geometry)) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
-    const intervalDelete = sortPlots.filter(
-      (item) =>
-        Number(item.geometry) < Number(interval.after) ||
-        Number(interval.before) < Number(item.geometry)
-    );
-    setPlots(null);
-    setPlots(intervalDelete);
-    // console.log("interval:", interval);
-    // console.log("sortPlots:", sortPlots);
-    // console.log("intervalDelete:", intervalDelete);
-    // console.log(plots)
-  }
+  // function deleteInterval() {
+  //   const sortPlots = plots.sort((a, b) => {
+  //     if (Number(a.geometry) > Number(b.geometry)) {
+  //       return 1;
+  //     } else {
+  //       return -1;
+  //     }
+  //   });
+  //   const intervalDelete = sortPlots.filter(
+  //     (item) =>
+  //       Number(item.geometry) < Number(interval.after) ||
+  //       Number(interval.before) < Number(item.geometry)
+  //   );
+  //   setPlots(null);
+  //   setPlots(intervalDelete);
+  //
+  // }
 
   function changeHandler(event) {
     setInterval({ ...interval, [event.target.name]: event.target.value });
@@ -122,7 +107,7 @@ function App() {
                   <Card className={"districts_card"} key={item.id}>
                     Districts name: {item.name}
                     <div>Количество plots:</div>
-                    <div>Площадь districts: {item.shape} кв.м.</div>
+                    <div>Площадь districts: {item.area.toFixed(2)} кв.м.</div>
                   </Card>
                 );
               })
@@ -137,28 +122,28 @@ function App() {
           </h2>
           <Button
             className={"districts_request"}
-            onClick={getPlots}
+            onClick={getBbl}
             variant="contained"
           >
             request plots
           </Button>
           <Button
             className={"districts_request"}
-            onClick={deletePlots}
+            // onClick={deletePlots}
             variant="contained"
           >
             delete plots
           </Button>
         </div>
         <div className={"plots"}>
-          {plots ? (
+          {search ? (
             <StyledEngineProvider injectFirst>
               <Autocomplete
                 className={"search"}
                 disablePortal
                 id="combo-box-demo"
                 onClick={resultSearch}
-                options={plots.map((item) => item.bbl.toString())}
+                options={search.map((item) => item.bbl)}
                 sx={{ width: 300 }}
                 renderInput={(params) => (
                   <TextField
@@ -179,7 +164,7 @@ function App() {
                 return (
                   <Card className={"districts_card"} key={item.id}>
                     <div>Plots BBL: {item.bbl}</div>
-                    <div>Площадь plots: {item.geometry} кв.м.</div>
+                    <div>Площадь plots: {item.area.toFixed(3)} кв.м.</div>
                   </Card>
                 );
               })
@@ -198,7 +183,7 @@ function App() {
           </Button>
           <Button
             className={"districts_request"}
-            onClick={deletePlots}
+            // onClick={deletePlots}
             variant="contained"
           >
             delete plots
@@ -207,23 +192,17 @@ function App() {
         <div>
           <Card className={"districts_card"}>
             <div>
-              Максимальная площадь:{" "}
-              {plots
-                ? Math.max.apply(
-                    null,
-                    plots.map((item) => item.geometry)
-                  )
-                : ""}{" "}
+              Максимальная площадь:
+              {minMax
+                ? minMax.maximum.toFixed(3)
+                : ""}
               кв.м.
             </div>
             <div>
-              Минимальная площадь:{" "}
-              {plots
-                ? Math.min.apply(
-                    null,
-                    plots.map((item) => item.geometry)
-                  )
-                : ""}{" "}
+              Минимальная площадь:
+              {minMax
+                ? minMax.minimum.toFixed(3)
+                : ""}
               кв.м.
             </div>
           </Card>
@@ -237,51 +216,51 @@ function App() {
         </h1>
 
         <div className={"delete_plots"}>
-          {plots ? (
-            <div>
-              <TextField
-                id="after"
-                name="after"
-                onChange={changeHandler}
-                autoFocus
-                label="ОТ"
-                variant="outlined"
-              />
-              <TextField
-                id="before"
-                name="before"
-                onChange={changeHandler}
-                label="ДО"
-                variant="outlined"
-              />
-              <Button
-                className={"districts_request"}
-                onClick={deleteInterval}
-                type="submit"
-                name="action"
-                variant="contained"
-              >
-                delete plots
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <Button
-                className={"districts_request"}
-                onClick={getPlots}
-                variant="contained"
-              >
-                request plots
-              </Button>
-              <Button
-                className={"districts_request"}
-                onClick={deletePlots}
-                variant="contained"
-              >
-                delete plots
-              </Button>
-            </div>
-          )}
+          {/*{plots ? (*/}
+          {/*  <div>*/}
+          {/*    <TextField*/}
+          {/*      id="after"*/}
+          {/*      name="after"*/}
+          {/*      onChange={changeHandler}*/}
+          {/*      autoFocus*/}
+          {/*      label="ОТ"*/}
+          {/*      variant="outlined"*/}
+          {/*    />*/}
+          {/*    <TextField*/}
+          {/*      id="before"*/}
+          {/*      name="before"*/}
+          {/*      onChange={changeHandler}*/}
+          {/*      label="ДО"*/}
+          {/*      variant="outlined"*/}
+          {/*    />*/}
+          {/*    <Button*/}
+          {/*      className={"districts_request"}*/}
+          {/*      onClick={deleteInterval}*/}
+          {/*      type="submit"*/}
+          {/*      name="action"*/}
+          {/*      variant="contained"*/}
+          {/*    >*/}
+          {/*      delete plots*/}
+          {/*    </Button>*/}
+          {/*  </div>*/}
+          {/*) : (*/}
+          {/*  <div>*/}
+          {/*    <Button*/}
+          {/*      className={"districts_request"}*/}
+          {/*      onClick={getPlots}*/}
+          {/*      variant="contained"*/}
+          {/*    >*/}
+          {/*      request plots*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      className={"districts_request"}*/}
+          {/*      onClick={deletePlots}*/}
+          {/*      variant="contained"*/}
+          {/*    >*/}
+          {/*      delete plots*/}
+          {/*    </Button>*/}
+          {/*  </div>*/}
+          {/*)}*/}
         </div>
       </section>
     </div>
