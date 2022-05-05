@@ -38,6 +38,8 @@ connection.connect((error) => {
     //         response.status('таблица создана')
     //     }
     // })
+    // const sql = 'ALTER TABLE geodistricts ADD countplots AS(SUM(ST_Contains(geodistricts.coordinates, geoplots.coord) FROM geodistricts, geoplots) )'
+    // connection.query(sql)
     // districtsJson.features.map(item => {
     //     connection.query("INSERT INTO `geo`(`id`,`name`, `shape`, `geometry`)  VALUES('" +   --districtsJson.features.length + "', \'" + item.properties.ntaname.replace(/'/g) + "'\, '" + item.properties.shape_area + "','" + JSON.stringify(item.geometry.coordinates) + "')")
     // })
@@ -55,10 +57,10 @@ connection.connect((error) => {
     //         response.status('таблица создана')
     //     }
     // })
-    // const sql = 'ALTER TABLE geom ADD pt POINT;'
+    // const sql = 'ALTER TABLE geodistricts ADD summa AS (SUM(MBRContains(geodistricts.coordinates, geoplots.coord)) FROM geodistricts, geoplots);'
     // connection.query(sql, async (error, rows, fields) => {
     //   if (error) {
-    //     console.log( 'ошибка таблица не создана')
+    //     console.log( 'ошибка таблица не создана',error)
     //   } else {
     //     response.status('таблица создана')
     //   }
@@ -98,11 +100,12 @@ connection.connect((error) => {
     //   }
     //         })
 
-
+    //
     // districtsJson.features.map(item => {
     //   if(item.geometry.coordinates[1] !== undefined) {
     //     const element = item.geometry.coordinates[0]
     //     const element2 = item.geometry.coordinates[1]
+    //     const sql = "SELECT SUM(MBRContains(geodistricts.coordinates, geoplots.coord)) AS sum FROM geodistricts, geoplots WHERE id === geodistricts.id GROUP BY geodistricts.id";
     //     const firstPolygon = element.flat(1).map(i => i.join(' '))
     //     const twoPolygon = element2.flat(1).map(i => i.join(' '))
     //     connection.query("INSERT INTO `geodistricts`(`id`, `ntacode`, `shape_area`, " +
@@ -114,6 +117,7 @@ connection.connect((error) => {
     //       "'" + item.properties.shape_leng + "'," +
     //       "'" + item.properties.boro_name + "'," +
     //       "'" + item.properties.boro_code + "'," +
+    // //       "(SELECT COUNT(*) FROM geodistricts  JOIN geoplots WHERE ST_Contains(geodistricts.coordinates, geoplots.coord))," +
     //       "ST_GeomFromText('MULTIPOLYGON(((" + firstPolygon + "),(" + twoPolygon + ")))',4326))")
     //     }
     //       else if(item.geometry.coordinates.flat(2)[0] !== item.geometry.coordinates.flat(2)[item.geometry.coordinates.flat(2).length - 1])
@@ -121,7 +125,9 @@ connection.connect((error) => {
     //     let element = item.geometry.coordinates.flat(2)
     //       const firstElement = item.geometry.coordinates.flat(2)[0]
     //      element.push(firstElement)
-    //       const firstPolygon = element.map(i => i.join(' '))
+    // //      const sql = "SELECT SUM(MBRContains(geodistricts.coordinates, geoplots.coord)) AS sum FROM geodistricts, geoplots GROUP BY geodistricts.id";
+    // //
+    //      const firstPolygon = element.map(i => i.join(' '))
     //      connection.query("INSERT INTO `geodistricts`(`id`, `ntacode`, `shape_area`, " +
     //        "`county_fips`, `ntaname`, `shape_leng`, `boro_name`, `boro_code`, `coordinates`)  " +
     //        "VALUES(NULL, '" + item.properties.ntacode + "'," +
@@ -131,13 +137,14 @@ connection.connect((error) => {
     //        "'" + item.properties.shape_leng + "'," +
     //        "'" + item.properties.boro_name + "'," +
     //        "'" + item.properties.boro_code + "'," +
+    // //        "(SELECT COUNT(*) FROM geodistricts  JOIN geoplots WHERE ST_Contains(geodistricts.coordinates, geoplots.coord))," +
     //        "ST_GeomFromText('MULTIPOLYGON(((" + firstPolygon + ")))',4326))")
     //    }
     //         })
 
     // districtsJson.features.map(item => {
     //   connection.query("INSERT INTO `geodistricts`(`id`, `ntacode`, `shape_area`, " +
-    //     "`county_fips`, `ntaname`, `shape_leng`, `boro_name`, `boro_code`, `coordinates`)  " +
+    //     "`county_fips`, `ntaname`, `shape_leng`, `boro_name`, `boro_code`, `coordinates`, `plots`)  " +
     //     "VALUES(NULL, '" + item.properties.ntacode + "'," +
     //     "'" + item.properties.shape_area + "'," +
     //     "'" + item.properties.county_fips + "'," +
@@ -145,6 +152,7 @@ connection.connect((error) => {
     //     "'" + item.properties.shape_leng + "'," +
     //     "'" + item.properties.boro_name + "'," +
     //     "'" + item.properties.boro_code + "'," +
+    // "SUM(ST_Contains(geodistricts.coordinates, geoplots.coord)) FROM geodistricts, geoplots" +
     //     "ST_GeomFromText('POLYGON((" + item.geometry.coordinates.flat(2).map(i => i.join(' ')) + "))',4326))")
     //   })
 
