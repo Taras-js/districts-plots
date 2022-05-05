@@ -1,30 +1,24 @@
 body {
-
+    height: 150vh;
 }
 
 .App {
-    position: relative;
     text-align: center;
 }
 
 
 .App-header {
-
     background-color: #282c34;
-    /*max-width: 100vh;*/
-    width: 100%;
     min-height: 100px;
     display: flex;
-    margin: 0 auto;
     flex-direction: column;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
 }
 
 .App-section {
-    background-color: white;
-    min-height: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,27 +30,25 @@ body {
 .districts {
     position: relative;
     display: grid;
-    grid-template-columns: 600px 600px 600px;
+    grid-template-columns: 800px 800px 800px;
     grid-template-rows: auto;
-    gap: 10px;
-    margin: 5px auto;
+    gap: 20px;
 
 }
 
 .districts_card {
     position: relative;
-    width: 600px;
-    font-size: 25px;
-    background-color: black;
-    border: 2px solid black;
-    text-align: left;
+    width: 800px;
+    font-size: 30px;
+    border: 1px solid black;
+    text-align: justify;
+    background-color: white;
+
 
 }
 
-.districts_request {
-    width: 300px;
-    height: 50px;
-
+.forms {
+    width: 350px;
 
 }
 
@@ -78,8 +70,52 @@ p {
 
 .delete_plots {
     display: flex;
+    margin-bottom: 100px;
 }
 
-.wrapper {
-    margin: 10px;
+@media screen and (min-width: 320px) and (max-width: 768px) {
+    .App-header {
+        min-width: 320px;
+        min-height: 50px;
+    }
+
+    h2 {
+        font-size: 15px;
+    }
+
+    .App-section {
+        min-width: 320px;
+    }
+
+    .districts {
+        position: relative;
+        display: grid;
+        grid-template-columns: 320px;
+        gap: 5px;
+        margin-left: 3px;
+    }
+
+    .districts_card {
+        width: 315px;
+        font-size: 14px;
+        text-align: center;
+
+    }
+
+    .forms {
+        width: 300px;
+    }
+
+
+    .search {
+        width: 400px;
+        margin: 0 auto;
+    }
+
+    .delete_plots {
+        display: grid;
+        margin-bottom: 100px;
+    }
+
+
 }

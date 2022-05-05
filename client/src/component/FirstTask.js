@@ -1,5 +1,4 @@
 import React from "react";
-import { Card } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -25,11 +24,11 @@ export const FirstTask = () => {
         {districts
           ? districts.map((item) => {
               return (
-                <Card className={"districts_card"} key={item.id}>
+                <div className={"districts_card"} key={item.id}>
                   Districts name: {item.name}
                   <div>Количество plots: {item.plots}</div>
                   <div>Площадь districts: {item.area.toFixed(2)} кв.м.</div>
-                </Card>
+                </div>
               );
             })
           : ""}

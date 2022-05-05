@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Autocomplete,
-  Card,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -19,8 +15,6 @@ export const SecondTask = () => {
   const getSearch = async (payload) => {
     await axios.post("/plots/search", { payload }, null).then((res) => {
       setBbl(res.data.values);
-      console.log(res.data.values)
-      console.log(Array.from(new Set(res.data.values)))
     });
   };
 
@@ -54,16 +48,18 @@ export const SecondTask = () => {
     <section className="App-section">
       <div>
         <h2>
-          Задача 2.Поиск участков земли по BBL --- вывод площади plot (в метрах
+          Задача 2. Поиск участков земли по BBL --- вывод площади plot (в метрах
           кв.) и к какому district имеет отношение
         </h2>
       </div>
       <div className={"plots"}>
         <Autocomplete
-          disablePortal
+          variant="contained"
           id="combo-box-demo"
+          className="forms"
+          freeSolo
+          sx={{ width: 320}}
           options={bbl.map((item) => item.bbl.toString())}
-          sx={{ width: 300 }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -78,11 +74,11 @@ export const SecondTask = () => {
         {select
           ? select.map((item) => {
               return (
-                <Card className={"districts_card"} key={item.id}>
+                <div className={"districts_card"} key={item.id}>
                   <div>Plots BBL: {item.bbl}</div>
                   <div>Площадь plots: {item.area.toFixed(3)} кв.м.</div>
                   <div>Имеет отнношение к districts: {item.districts}</div>
-                </Card>
+                </div>
               );
             })
           : ""}

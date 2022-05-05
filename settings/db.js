@@ -14,70 +14,6 @@ connection.connect((error) => {
   if (error) {
     return console.log("Error connecting to database mySql");
   } else {
-    // const sql = 'CREATE TABLE district(id INT, name VARCHAR(255), shape VARCHAR(20), geometry BIGINT(8000))'
-    // connection.query(sql, async (error, rows, fields) => {
-    //     if (error) {
-    //         console.log( 'ошибка таблица не создана')
-    //     } else {
-    //         response.status('таблица создана')
-    //     }
-    // })
-    // const sql = 'CREATE TABLE geo(id INT,  name VARCHAR(255), shape VARCHAR(20), geometry JSON)'
-    // connection.query(sql, async (error, rows, fields) => {
-    //     if (error) {
-    //         console.log( 'ошибка таблица не создана')
-    //     } else {
-    //         response.status('таблица создана')
-    //     }
-    // })
-    // const sql = 'CREATE TABLE plots(id INT,  bbl INT, geometry JSON)'
-    // connection.query(sql, async (error, rows, fields) => {
-    //     if (error) {
-    //         console.log( 'ошибка таблица не создана')
-    //     } else {
-    //         response.status('таблица создана')
-    //     }
-    // })
-    // const sql = 'ALTER TABLE geodistricts ADD countplots AS(SUM(ST_Contains(geodistricts.coordinates, geoplots.coord) FROM geodistricts, geoplots) )'
-    // connection.query(sql)
-    // districtsJson.features.map(item => {
-    //     connection.query("INSERT INTO `geo`(`id`,`name`, `shape`, `geometry`)  VALUES('" +   --districtsJson.features.length + "', \'" + item.properties.ntaname.replace(/'/g) + "'\, '" + item.properties.shape_area + "','" + JSON.stringify(item.geometry.coordinates) + "')")
-    // })
-    // plotsJson.features.map(item => {
-    //     connection.query("INSERT INTO `plots`(`id`,`bbl`, `geometry`)  VALUES('" +   --plotsJson.features.length + "', '" + item.properties.bbl + "','" + JSON.stringify(item.geometry.coordinates) + "')")
-    // })
-    // const geoSql ='INSERT INTO geo(place_name, coordinates) VALUES (Apartment, PointFromText(POINT(49.234 2.5273))'
-    //     connection.query(geoSql)
-
-    // const sql = 'CREATE TABLE geom (g GEOMETRY);'
-    // connection.query(sql, async (error, rows, fields) => {
-    //     if (error) {
-    //         console.log( 'ошибка таблица не создана')
-    //     } else {
-    //         response.status('таблица создана')
-    //     }
-    // })
-    // const sql = 'ALTER TABLE geodistricts ADD summa AS (SUM(MBRContains(geodistricts.coordinates, geoplots.coord)) FROM geodistricts, geoplots);'
-    // connection.query(sql, async (error, rows, fields) => {
-    //   if (error) {
-    //     console.log( 'ошибка таблица не создана',error)
-    //   } else {
-    //     response.status('таблица создана')
-    //   }
-    // })
-    //   const sql = 'ALTER TABLE geom ADD pol POLYGON;'
-    // connection.query(sql, async (error, rows, fields) => {
-    //   if (error) {
-    //     console.log( 'ошибка таблица не создана')
-    //   } else {
-    //     response.status('таблица создана')
-    //   }
-    // })
-    // const polygon = 'INSERT INTO `new`(`id`, `poligon`, `city`) VALUES (\'1\',ST_GeomFromText(\'POLYGON((-73.968461 40.757225,-73.968618 40.757004,-73.968685 40.757033,-73.968529 40.757254,-73.968461 40.757225))\'),\'saratov\')'
-    // const point = "INSERT INTO `zip` (`id`,  `city`, `geo`) VALUES ('1', 'saratov',  ST_GeomFromText('POINT(-73.968461 40.757225)'))"
-    // const dataPlots = "INSERT INTO `geoplots`(`id`, `bbl`, `coordinates`) VALUES (NULL,'" + item.properties.bbl + "','[value-3]')"
-
-    //ПРАВИЛЬНО
     // plotsJson.features.map(item => {
     //   if(item.geometry.coordinates[1] !== undefined) {
     //     const element = item.geometry.coordinates[0]
@@ -99,8 +35,6 @@ connection.connect((error) => {
     //     "ST_GeomFromText('MULTIPOLYGON(((" + firstPolygon + ")))',4326), 0)")
     //   }
     //         })
-
-    //
     // districtsJson.features.map(item => {
     //   if(item.geometry.coordinates[1] !== undefined) {
     //     const element = item.geometry.coordinates[0]
