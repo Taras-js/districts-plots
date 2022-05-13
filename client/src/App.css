@@ -1,5 +1,6 @@
 body {
     height: 150vh;
+    width: 100%;
 }
 
 .App {
@@ -30,21 +31,28 @@ body {
 .districts {
     position: relative;
     display: grid;
-    grid-template-columns: 800px 800px 800px;
     grid-template-rows: auto;
-    gap: 20px;
-
+    grid-template-columns: repeat(5, 290px);
+    grid-auto-flow: dense;
+    grid-gap: 10px;
 }
 
 .districts_card {
     position: relative;
-    width: 800px;
-    font-size: 30px;
-    border: 1px solid black;
+    font-size: 14px;
     text-align: justify;
-    background-color: white;
+    background-color: rgba(237, 164, 126, 0.99);
+    border-radius: 10px;
+    box-shadow: 3px 2px 2px red;
+    padding-left: 10px;
+}
 
+.districts_card:hover {
+    transform: rotate(1deg);
+}
 
+.districts_card h4 {
+    text-align: center;
 }
 
 .forms {

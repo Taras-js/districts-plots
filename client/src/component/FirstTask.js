@@ -25,9 +25,9 @@ export const FirstTask = () => {
           ? districts.map((item) => {
               return (
                 <div className={"districts_card"} key={item.id}>
-                  Districts name: {item.name}
-                  <div>Количество plots: {item.plots}</div>
-                  <div>Площадь districts: {item.area.toFixed(2)} кв.м.</div>
+                  <h4>{item.name}</h4>
+                  <p>Количество plots: {item.plots}</p>
+                  <p>Площадь districts: {item.area.toFixed(2)} кв.м.</p>
                 </div>
               );
             })

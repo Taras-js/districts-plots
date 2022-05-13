@@ -21,10 +21,10 @@ export const ThirdTask = () => {
       </h2>
       <div className="districts_card">
         <div>
-          Максимальная площадь: {minMax ? minMax.max.toFixed(3) : ""} кв.м.
+          Максимальная площадь: {minMax ? minMax.max?.toFixed(3) : 0} кв.м.
         </div>
         <div>
-          Минимальная площадь: {minMax ? minMax.min.toFixed(3) : ""} кв.м.
+          Минимальная площадь: {minMax? minMax.min?.toFixed(3) : 0} кв.м.
         </div>
       </div>
     </section>
